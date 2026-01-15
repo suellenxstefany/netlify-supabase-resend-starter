@@ -65,6 +65,7 @@ create table if not exists public.system_logs (
 alter table public.system_logs enable row level security;
 
 -- No anon/auth policies: they can't read/write any rows when RLS is enabled.
+revoke all on table public.system_logs from public;
 revoke all on table public.system_logs from anon, authenticated;
 
 -- Service role (server-side only) can write/read logs.
