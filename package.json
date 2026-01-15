@@ -1,0 +1,14 @@
+{
+  "name": "netlify-supabase-resend-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal Netlify Functions + Supabase + Resend + Tailwind CDN starter.",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.78.0",
+    "dotenv": "^16.6.1",
+    "resend": "~6.4.2"
+  }
+}

@@ -1,0 +1,7 @@
+[build]
+  publish = "src"
+  functions = "functions"
+
+[dev]
+  publish = "src"
+  functions = "functions"

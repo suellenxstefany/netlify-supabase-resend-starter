@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netlify + Supabase + Resend Starter</title>
+
+    <!-- Tailwind via CDN (no build step) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles.css" />
+
+    <script>
+      // Frontend-safe config (anon key is OK to expose).
+      // Replace these placeholders with your project values.
+      window.__ENV = {
+        SUPABASE_URL: "https://YOUR_PROJECT_REF.supabase.co",
+        SUPABASE_ANON_KEY: "YOUR_SUPABASE_ANON_KEY"
+      };
+    </script>
+  </head>
+
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto max-w-2xl p-6">
+      <header>
+        <h1 class="text-2xl font-semibold">Netlify Functions + Supabase + Resend</h1>
+        <p class="mt-2 text-slate-300">
+          Minimal starter: vanilla HTML/JS, Tailwind via CDN, serverless functions in
+          <code class="text-slate-200">/functions</code>.
+        </p>
+      </header>
+
+      <section class="mt-6 rounded-lg border border-slate-800 bg-slate-900 p-4">
+        <h2 class="font-medium">Health Check</h2>
+        <p class="mt-1 text-sm text-slate-400">Calls <code class="text-slate-200">/.netlify/functions/health</code>.</p>
+
+        <button
+          id="healthBtn"
+          class="mt-3 rounded bg-indigo-600 px-3 py-2 text-sm font-medium hover:bg-indigo-500"
+          type="button"
+        >
+          Run health check
+        </button>
+
+        <pre
+          id="healthOut"
+          class="mt-3 overflow-auto rounded border border-slate-800 bg-slate-950/60 p-3 text-xs"
+        ></pre>
+      </section>
+
+      <section class="mt-6 rounded-lg border border-slate-800 bg-slate-900 p-4">
+        <h2 class="font-medium">Send Email (Resend)</h2>
+        <p class="mt-1 text-sm text-slate-400">
+          Requires <code class="text-slate-200">RESEND_API_KEY</code> in Netlify env vars (or local <code class="text-slate-200">.env</code>).
+        </p>
+
+        <form id="emailForm" class="mt-4 space-y-3">
+          <label class="block">
+            <span class="text-sm text-slate-300">To</span>
+            <input
+              id="to"
+              type="email"
+              required
+              class="mt-1 w-full rounded border border-slate-800 bg-slate-950 px-3 py-2 text-sm"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+          </label>
+
+          <label class="block">
+            <span class="text-sm text-slate-300">Subject</span>
+            <input
+              id="subject"
+              type="text"
+              required
+              class="mt-1 w-full rounded border border-slate-800 bg-slate-950 px-3 py-2 text-sm"
+              placeholder="Hello from Netlify"
+              autocomplete="off"
+            />
+          </label>
+
+          <label class="block">
+            <span class="text-sm text-slate-300">Message</span>
+            <textarea
+              id="message"
+              rows="4"
+              class="mt-1 w-full rounded border border-slate-800 bg-slate-950 px-3 py-2 text-sm"
+              placeholder="This is a test email."
+            ></textarea>
+          </label>
+
+          <button class="rounded bg-emerald-600 px-3 py-2 text-sm font-medium hover:bg-emerald-500" type="submit">
+            Send email
+          </button>
+        </form>
+
+        <pre
+          id="emailOut"
+          class="mt-3 overflow-auto rounded border border-slate-800 bg-slate-950/60 p-3 text-xs"
+        ></pre>
+      </section>
+
+      <footer class="mt-6 text-sm text-slate-400">
+        <p>
+          Supabase client lives in <code class="text-slate-200">src/supabaseClient.js</code>. Open DevTools to see the init log.
+        </p>
+      </footer>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
