@@ -44,6 +44,43 @@ cp .env.example .env
 3) Update Supabase browser config:
 - Edit `src/index.html` and replace `window.__ENV.SUPABASE_URL` + `window.__ENV.SUPABASE_ANON_KEY`.
 
+## Audit logging (Supabase)
+
+The `sendEmail` function writes an audit row to `system_logs` *before* sending via Resend.
+
+Run this in the Supabase SQL Editor:
+
+```sql
+-- Required for gen_random_uuid()
+create extension if not exists pgcrypto;
+
+create table if not exists public.system_logs (
+  id uuid default gen_random_uuid() primary key,
+  created_at timestamptz default now() not null,
+  event_type text not null,
+  metadata jsonb,
+  ip_address text
+);
+
+alter table public.system_logs enable row level security;
+
+-- No anon/auth policies: they can't read/write any rows when RLS is enabled.
+revoke all on table public.system_logs from anon, authenticated;
+
+-- Service role (server-side only) can write/read logs.
+grant insert, select on table public.system_logs to service_role;
+
+create policy "service_role_insert_logs"
+  on public.system_logs for insert
+  to service_role
+  with check (true);
+
+create policy "service_role_read_logs"
+  on public.system_logs for select
+  to service_role
+  using (true);
+```
+
 ## Local dev
 
 Runs a local static server + functions:
@@ -63,6 +100,8 @@ npx netlify-cli@21.6.0 dev
 In Netlify:
 - Set build settings: publish directory `src`, functions directory `functions` (also in `netlify.toml`)
 - Set environment variables (functions):
+  - `SUPABASE_URL`
+  - `SUPABASE_SERVICE_ROLE_KEY`
   - `RESEND_API_KEY`
 
 Notes:
