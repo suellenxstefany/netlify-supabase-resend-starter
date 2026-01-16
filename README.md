@@ -18,7 +18,7 @@ Production-friendly starter repo:
 ├── .gitignore
 ├── functions/
 │   ├── health.js
-│   └── sendEmail.js
+│   ├── sendEmail.js
 │   └── triageAgent.js
 ├── src/
 │   ├── index.html
